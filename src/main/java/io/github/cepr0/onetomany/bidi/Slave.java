@@ -1,4 +1,4 @@
-package io.github.cepr0.onetomany.model.bidi;
+package io.github.cepr0.onetomany.bidi;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
