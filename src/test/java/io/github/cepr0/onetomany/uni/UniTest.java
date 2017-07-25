@@ -1,6 +1,7 @@
 package io.github.cepr0.onetomany.uni;
 
 import io.github.cepr0.onetomany.BaseTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,26 +20,37 @@ public class UniTest extends BaseTest {
 
     @Autowired private Parent.Repo parentRepo;
     @Autowired private Child.Repo childRepo;
-
-    @Test
-    public void updateParent() throws Exception {
-
-        childRepo.save(asList(
+    
+    @Before
+    public void setUp() throws Exception {
+    
+        List<Child> children = childRepo.save(asList(
                 new Child("child1"),
                 new Child("child2"),
                 new Child("child3"),
                 new Child("child4")));
-        childRepo.flush();
-
+    
+        parentRepo.save(new Parent("parent1", children.get(0), children.get(1)));
+    }
+    
+    @Test
+    public void read() throws Exception {
+    
         List<Child> children = childRepo.findAll();
         assertThat(children).hasSize(4);
-
-        parentRepo.saveAndFlush(new Parent("parent1", children.get(0), children.get(1)));
-
+    
         List<Parent> parents = parentRepo.findAll();
         assertThat(parents).hasSize(1);
+    }
+    
+    @Test
+    public void updateParent() throws Exception {
+
+        List<Child> children = childRepo.findAll();
+        List<Parent> parents = parentRepo.findAll();
 
         Parent parent1 = parents.get(0);
+
         parent1.setName("parent1u");
         List<Child> parent1Children = parent1.getChildren();
         parent1Children.clear();
