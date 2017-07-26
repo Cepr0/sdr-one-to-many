@@ -2,10 +2,8 @@ package io.github.cepr0.onetomany.bidi;
 
 import io.github.cepr0.onetomany.BaseTest;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,16 +67,15 @@ public class BidiTest extends BaseTest {
         assertThat(slave4.getMaster().getId()).isEqualTo(1L);
     }
     
-    @Transactional
-    @Ignore
-    public void updateMaster() {
+    private void updateMaster() {
         List<Master> masters = masterRepo.findAll();
         List<Slave> slaves = slaveRepo.findAll();
         
         Master master1 = masters.get(0);
+
         master1.setName("master1u");
-        master1.getSlaves().addAll(asList(slaves.get(2), slaves.get(3)));
-        
+        master1.removeSlaves().addSlaves(slaves.get(2), slaves.get(3));
+
         masterRepo.saveAndFlush(master1);
     }
 }

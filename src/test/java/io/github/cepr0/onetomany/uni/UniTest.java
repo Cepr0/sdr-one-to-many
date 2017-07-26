@@ -44,20 +44,11 @@ public class UniTest extends BaseTest {
     }
     
     @Test
-    public void updateParent() throws Exception {
+    public void updateParentTest() throws Exception {
 
-        List<Child> children = childRepo.findAll();
+        updateParent();
+
         List<Parent> parents = parentRepo.findAll();
-
-        Parent parent1 = parents.get(0);
-
-        parent1.setName("parent1u");
-        List<Child> parent1Children = parent1.getChildren();
-        parent1Children.clear();
-        parent1Children.addAll(asList(children.get(2), children.get(3)));
-        parentRepo.saveAndFlush(parent1);
-
-        parents = parentRepo.findAll();
         Parent updatedParent = parents.get(0);
 
         assertThat(updatedParent.getName()).isEqualTo("parent1u");
@@ -67,5 +58,19 @@ public class UniTest extends BaseTest {
 
         List<String> childNames = updatedChildren.stream().map(Child::getName).collect(Collectors.toList());
         assertThat(childNames).containsOnly("child3", "child4");
+    }
+
+    private void updateParent() {
+        List<Child> children = childRepo.findAll();
+        List<Parent> parents = parentRepo.findAll();
+
+        Parent parent1 = parents.get(0);
+
+        parent1.setName("parent1u");
+        List<Child> parent1Children = parent1.getChildren();
+        parent1Children.clear();
+        parent1Children.addAll(asList(children.get(2), children.get(3)));
+
+        parentRepo.saveAndFlush(parent1);
     }
 }
