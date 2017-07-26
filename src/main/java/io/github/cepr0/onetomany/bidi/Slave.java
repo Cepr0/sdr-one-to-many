@@ -4,6 +4,7 @@ import io.github.cepr0.onetomany.BaseEntity;
 import lombok.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,5 +47,7 @@ public class Slave extends BaseEntity {
 
     @RepositoryRestResource
     public interface Repo extends JpaRepository<Slave, Long> {
+        @RestResource(exported = false)
+        Slave findByName(String name);
     }
 }

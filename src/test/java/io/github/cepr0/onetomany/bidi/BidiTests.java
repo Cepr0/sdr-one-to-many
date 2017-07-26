@@ -15,7 +15,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Cepro
  * @since 2017-07-25
  */
-public class BidiTest extends BaseTest {
+public class BidiTests extends BaseTest {
     
     @Autowired private Master.Repo masterRepo;
     @Autowired private Slave.Repo slaveRepo;
@@ -32,13 +32,18 @@ public class BidiTest extends BaseTest {
     }
     
     @Test
-    public void read() throws Exception {
+    public void readTest() throws Exception {
     
         List<Master> masters = masterRepo.findAll();
         assertThat(masters).hasSize(1);
     
         List<Slave> slaves = slaveRepo.findAll();
         assertThat(slaves).hasSize(4);
+    
+        Master master1 = masterRepo.findByName("master1");
+        assertThat(master1).isNotNull();
+        assertThat(master1.getName()).isEqualTo("master1");
+        assertThat(master1.getSlaves()).hasSize(2);
     }
     
     @Test
@@ -56,15 +61,26 @@ public class BidiTest extends BaseTest {
         List<String> slaveNames = updatedSlaves.stream().map(Slave::getName).collect(Collectors.toList());
         assertThat(slaveNames).containsOnly("slave3", "slave4");
     
-        Slave slave1 = slaveRepo.findOne(1L);
-        Slave slave2 = slaveRepo.findOne(2L);
-        Slave slave3 = slaveRepo.findOne(3L);
-        Slave slave4 = slaveRepo.findOne(4L);
+        Slave slave1 = slaveRepo.findByName("slave1");
+        Slave slave2 = slaveRepo.findByName("slave2");
+        Slave slave3 = slaveRepo.findByName("slave3");
+        Slave slave4 = slaveRepo.findByName("slave4");
         
         assertThat(slave1.getMaster()).isEqualTo(null);
         assertThat(slave2.getMaster()).isEqualTo(null);
-        assertThat(slave3.getMaster().getId()).isEqualTo(1L);
-        assertThat(slave4.getMaster().getId()).isEqualTo(1L);
+        assertThat(slave3.getMaster().getName()).isEqualTo("master1u");
+        assertThat(slave4.getMaster().getName()).isEqualTo("master1u");
+    }
+    
+    @Test
+    public void countTest() throws Exception {
+        Master master1 = masterRepo.findByName("master1");
+        
+        Long slavesCount = masterRepo.countBySlaves_Master(master1);
+        assertThat(slavesCount).isEqualTo(2L);
+    
+        slavesCount = masterRepo.countBySlaves_MasterId(master1.getId());
+        assertThat(slavesCount).isEqualTo(2L);
     }
     
     private void updateMaster() {
