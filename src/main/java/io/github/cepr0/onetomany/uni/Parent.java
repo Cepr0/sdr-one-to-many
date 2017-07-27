@@ -39,7 +39,4 @@ public class Parent extends BaseEntity {
         this.children.addAll(asList(children));
     }
 
-    @RepositoryRestResource
-    public interface Repo extends JpaRepository<Parent, Long> {
-    }
 }

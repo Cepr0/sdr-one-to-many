@@ -45,9 +45,4 @@ public class Slave extends BaseEntity {
         this.master = master;
     }
 
-    @RepositoryRestResource
-    public interface Repo extends JpaRepository<Slave, Long> {
-        @RestResource(exported = false)
-        Slave findByName(String name);
-    }
 }

@@ -1,6 +1,8 @@
 package io.github.cepr0.onetomany.bidi;
 
 import io.github.cepr0.onetomany.BaseTest;
+import io.github.cepr0.onetomany.bidi.repo.MasterRepo;
+import io.github.cepr0.onetomany.bidi.repo.SlaveRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,8 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  */
 public class BidiTests extends BaseTest {
     
-    @Autowired private Master.Repo masterRepo;
-    @Autowired private Slave.Repo slaveRepo;
+    @Autowired private MasterRepo masterRepo;
+    @Autowired private SlaveRepo slaveRepo;
     
     @Before
     public void setUp() throws Exception {

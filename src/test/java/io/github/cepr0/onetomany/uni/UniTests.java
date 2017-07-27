@@ -1,6 +1,8 @@
 package io.github.cepr0.onetomany.uni;
 
 import io.github.cepr0.onetomany.BaseTest;
+import io.github.cepr0.onetomany.uni.repo.ChildRepo;
+import io.github.cepr0.onetomany.uni.repo.ParentRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,10 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Cepro
  *         2017-07-25
  */
-public class UniTest extends BaseTest {
+public class UniTests extends BaseTest {
 
-    @Autowired private Parent.Repo parentRepo;
-    @Autowired private Child.Repo childRepo;
+    @Autowired private ParentRepo parentRepo;
+    @Autowired private ChildRepo childRepo;
     
     @Before
     public void setUp() throws Exception {
@@ -34,7 +36,7 @@ public class UniTest extends BaseTest {
     }
     
     @Test
-    public void read() throws Exception {
+    public void readTest() throws Exception {
     
         List<Child> children = childRepo.findAll();
         assertThat(children).hasSize(4);

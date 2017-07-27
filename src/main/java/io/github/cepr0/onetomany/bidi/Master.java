@@ -2,9 +2,6 @@ package io.github.cepr0.onetomany.bidi;
 
 import io.github.cepr0.onetomany.BaseEntity;
 import lombok.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -85,13 +82,4 @@ public class Master extends BaseEntity {
         this.slaves.clear();
     }
 
-    @RepositoryRestResource
-    public interface Repo extends JpaRepository<Master, Long> {
-        @RestResource(exported = false)
-        Master findByName(String name);
-        
-        Long countBySlaves_Master(Master master);
-    
-        Long countBySlaves_MasterId(Long id);
-    }
 }

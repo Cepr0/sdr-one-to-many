@@ -23,7 +23,4 @@ public class Child extends BaseEntity {
     @Column(unique = true)
     private String name;
 
-    @RepositoryRestResource
-    public interface Repo extends JpaRepository<Child, Long> {
-    }
 }
