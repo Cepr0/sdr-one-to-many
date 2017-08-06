@@ -32,7 +32,7 @@ public class Master extends BaseEntity {
 
     public Master(String name, Slave... slaves) {
         this.name = name;
-        this.slaves.addAll(asList(slaves));
+        setSlaves(asList(slaves));
     }
 
     public Master setSlaves(List<Slave> slaves) {
